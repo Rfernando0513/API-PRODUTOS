@@ -8,5 +8,6 @@ const conexao = mysql.createConnection({
     database: 'BdProdutos'
 })
 
+conexao.connect();
 
 export default conexao
