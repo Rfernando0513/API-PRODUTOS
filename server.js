@@ -1,7 +1,16 @@
 import app from './src/app.js';
+import conexao from './Data/conexao.js';
 
-const port = 3000;
+const PORT = 3000;
 
-app.listen(port, () => {
-  console.log(`Servidor rodando na porta ${port}`);
+conexao.connect((error) => {
+    if (error) {
+        console.error('Erro ao conectar ao MySQL:', error);
+    } else {
+        console.log('Conexão realizada com sucesso');
+
+        app.listen(PORT, () => {
+            console.log(`Servidor rodando na porta ${PORT}`);
+        });
+    }
 });
