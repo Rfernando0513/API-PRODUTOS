@@ -1,10 +1,10 @@
-import SelecaoRepositorie from "../App/Repositories/SelecaoRepositorie.js"
+import ProdutoRepositorie from "../App/Repositories/ProdutoRepositorie.js"
 
-class SelecaoController {
+class ProdutoController {
 
     async index(req, res) {
         try {
-            const result = await SelecaoRepositorie.findAll()
+            const result = await ProdutoRepositorie.findAll()
             res.json(result)
         } catch (error) {
             console.log(error)
@@ -15,7 +15,7 @@ class SelecaoController {
 
         try {
             const id = req.params.id
-            const result = await SelecaoRepositorie.findById(id)
+            const result = await ProdutoRepositorie.findById(id)
             res.json(result)
 
         } catch (error) {
@@ -26,7 +26,7 @@ class SelecaoController {
     async store(req, res) {
         try {
             const produto = req.params.body
-            const result = await SelecaoRepositorie.create(produto)
+            const result = await ProdutoRepositorie.create(produto)
             res.json(result)
         } catch (error) {
             console.log(error)
@@ -38,7 +38,7 @@ class SelecaoController {
         try {
             const id = req.id
             const produto = req.body
-            const result = await SelecaoRepositorie.update([id, produto])
+            const result = await ProdutoRepositorie.update([id, produto])
             res.json(result)
             
         } catch (error) {
@@ -49,7 +49,7 @@ class SelecaoController {
 
     async delete(req, res) {
         try {
-            const result = await SelecaoRepositorie.delete()
+            const result = await ProdutoRepositorie.delete()
             res.json(result)
         } catch (error) {
             console.log(error)
@@ -59,4 +59,4 @@ class SelecaoController {
 
 }
 
-export default new SelecaoController()
+export default new ProdutoController()
