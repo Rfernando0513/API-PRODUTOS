@@ -1,10 +1,17 @@
 import { consulta } from '../Data/conexao.js'
+import Produto from '../../Models/ProdutoModel.js'
 
 class ProdutoRepositorie {
 
-    create(produto) {
+    create(produtoData) {
+        const produto = new Produto(produtoData)
+        if(!produto.isValid()){
+            throw new Error('Produto Invalido')
+        }
+
         const sql = 'INSERT INTO Produto SET ?;'
-        return consulta(sql, produto, 'Não foi Cadastrar Produto');
+        return consulta(sql, produto, 'Não foi possivel cadastrar o produto')
+
     }
 
     findAll() {
@@ -12,20 +19,23 @@ class ProdutoRepositorie {
         return consulta(sql, 'Não foi Possivel Localizar Produtos');
     }
 
-    findById(id) 
-    {
+    findById(id) {
         const sql = 'SELECT * FROM Produto WHERE Id=?;'
-        return consulta(sql, id, `Não foi Cadastrar o Produto: ${id}`);
+        return consulta(sql, id, `Não foi Cadastrar o produto: ${id}`);
     }
 
-    update(produto, id) {
+    update(produtoData, id) {
+        const produto = new Produto(produtoData);
+        if(!produto.isValid()){
+            throw new Error('Produto inválido');
+        }
         const sql = 'UPDATE Produto SET ? WHERE Id=?;'
-        return consulta(sql, [produto, id], `Não foi Atualizar`);
+        return consulta(sql, [produto, id], `Não foi Atualizar o produto`);
     }
 
     delete(id) {
         const sql = 'DELETE  FROM Produto WHERE Id=?;'
-        return consulta(sql, id, `Não foi Apagar`);
+        return consulta(sql, id, `Não foi possivel apagar o produto`);
     }
 }
 

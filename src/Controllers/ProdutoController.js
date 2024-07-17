@@ -1,62 +1,54 @@
-import ProdutoRepositorie from "../App/Repositories/ProdutoRepositorie.js"
+import ProdutoRepositorie from "../App/Repositories/ProdutoRepositorie.js";
 
 class ProdutoController {
 
-    async index(req, res) {
+    async getAllProdutos(req, res) {
         try {
-            const result = await ProdutoRepositorie.findAll()
-            res.json(result)
+            const produtos = await ProdutoRepositorie.findAll();
+            res.json(produtos);
         } catch (error) {
-            console.log(error)
+            res.status(500).json({ msg: error.message });
         }
     }
 
-    async show(req, res) {
-
+    async createProduto(req, res) {
         try {
-            const id = req.params.id
-            const result = await ProdutoRepositorie.findById(id)
-            res.json(result)
-
+            const produto = await ProdutoRepositorie.create(req.body);
+            res.status(201).json(produto);
         } catch (error) {
-            console.log(error)
+            res.status(500).json({ msg: error.message });
         }
     }
 
-    async store(req, res) {
+    async getProdutoById(req, res) {
         try {
-            const produto = req.params.body
-            const result = await ProdutoRepositorie.create(produto)
-            res.json(result)
+            const produto = await ProdutoRepositorie.findById(req.params.id);
+            if (!produto) {
+                return res.status(404).json({ msg: 'Produto não encontrado' });
+            }
+            res.json(produto);
         } catch (error) {
-            console.log(error)
+            res.status(404).json({ msg: error.message });
         }
-
     }
 
-    async update(req, res) {
+    async updateProduto(req, res) {
         try {
-            const id = req.id
-            const produto = req.body
-            const result = await ProdutoRepositorie.update([id, produto])
-            res.json(result)
-            
+            const updatedProduto = await ProdutoRepositorie.update(req.body, req.params.id);
+            res.json(updatedProduto);
         } catch (error) {
-            console.log(error)
+            res.status(500).json({ message: error.message });
         }
-
     }
 
-    async delete(req, res) {
+    async deleteProduto(req, res) {
         try {
-            const result = await ProdutoRepositorie.delete()
-            res.json(result)
+            await ProdutoRepositorie.delete(req.params.id);
+            res.status(204).end();
         } catch (error) {
-            console.log(error)
+            res.status(500).json({ message: error.message });
         }
-
     }
-
 }
 
-export default new ProdutoController()
+export default new ProdutoController();
